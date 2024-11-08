@@ -1,14 +1,19 @@
-import React from "react";
 import UserTable from "./UserTable";
 
+interface Props {
+  searchParams: { sortOrder: string };
+}
 
+const UsersPage = async (Props) => {
+  const searchParams = await Props.searchParams;
+  const sortOrder = searchParams.sortOrder;
 
-const UsersPage = async () => {
+  console.log(sortOrder);
 
   return (
     <>
-    <h1>Users</h1>
-    <UserTable></UserTable>
+      <h1>Users</h1>
+      <UserTable sortOder={sortOrder}></UserTable>
     </>
   );
 };
