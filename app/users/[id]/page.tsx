@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import React from "react";
 
 // interface Props {
@@ -15,6 +16,7 @@ const UserDetailPage = async function ({
 }) {
   const id = (await params).id;
 
+  if (id > 10) notFound();
   return <div>UserDetailPage {id}</div>;
 };
 
