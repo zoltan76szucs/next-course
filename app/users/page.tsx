@@ -1,3 +1,4 @@
+import Link from "next/link";
 import UserTable from "./UserTable";
 
 // interface Props {
@@ -28,6 +29,7 @@ const UsersPage = async function ({
   return (
     <>
       <h1>Users</h1>
+      <Link href='/users/new' className="btn ">New</Link>
       <UserTable sortOder={sortOrder}></UserTable>
     </>
   );
