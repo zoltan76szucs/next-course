@@ -21,10 +21,8 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> } // params Promise-ként van megadva
 ) {
-
-  
-  const body = await request.json();  
-  const { id: idStr } = await params; // await használata itt a params kibontásához  
+  const body = await request.json();
+  const { id: idStr } = await params; // await használata itt a params kibontásához
   const id = parseInt(idStr, 10); // konvertáljuk számmá
 
   const validation = schema.safeParse(body);
@@ -56,9 +54,14 @@ export async function DELETE(
   const { id: idStr } = await params; // await használata itt a params kibontásához
   const id = parseInt(idStr, 10); // konvertáljuk számmá
 
-  if (id > 10) {
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
-  }
+  const user = await prisma.user.findUnique({ where: { id: id } });
 
-  return NextResponse.json({ id });
+  if (!user)
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+
+  const deletedUser = await prisma.user.delete({
+    where: { id: user.id },
+  });
+
+  return NextResponse.json(deletedUser);
 }
