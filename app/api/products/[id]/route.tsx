@@ -1,14 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import schema from "../schema";
+import prisma from "@/prisma/client";
 
-export function GET(
+export async function GET(
   request: NextRequest,
-  { params }: { params: { id: number } }
+  { params }: { params: Promise<{ id: string }> } // params Promise-ként van megadva
 ) {
-  if (params.id > 10)
+  const { id: idStr } = await params; // await használata itt a params kibontásához
+  const id = parseInt(idStr, 10); // konvertáljuk számmá
+
+  const product = await prisma.product.findUnique({ where: { id: id } });
+
+  if (!product)
     return NextResponse.json({ error: "Product not found" }, { status: 404 });
 
-  return NextResponse.json([{ id: 1, name: "Milk", price: 2.5 }]);
+  return NextResponse.json(product);
 }
 
 export async function PUT(
@@ -25,11 +31,21 @@ export async function PUT(
     return NextResponse.json(validation.error.errors, { status: 400 });
   }
 
-  if (id > 10) {
+  const product = await prisma.product.findUnique({ where: { id: id } });
+
+  if (!product) {
     return NextResponse.json({ error: "Product not found" }, { status: 404 });
   }
 
-  return NextResponse.json({ id, name: body.name, price: body.price });
+  const updatedProduct = await prisma.product.update({
+    where: { id: product.id },
+    data: {
+      name: body.name,
+      price: body.price,
+    },
+  });
+
+  return NextResponse.json(updatedProduct);
 }
 
 export async function DELETE(
@@ -39,9 +55,15 @@ export async function DELETE(
   const { id: idStr } = await params; // await használata itt a params kibontásához
   const id = parseInt(idStr, 10); // konvertáljuk számmá
 
-  if (id > 10) {
+  const product = await prisma.product.findUnique({ where: { id: id } });
+
+  if (!product) {
     return NextResponse.json({ error: "Product not found" }, { status: 404 });
   }
 
-  return NextResponse.json({ id });
+  const deletedProduct = await prisma.product.delete({
+    where: { id: product.id },
+  });
+
+  return NextResponse.json({ deletedProduct });
 }
