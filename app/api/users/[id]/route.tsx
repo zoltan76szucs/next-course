@@ -9,7 +9,7 @@ export async function GET(
   const { id: idStr } = await params; // await használata itt a params kibontásához
   const id = parseInt(idStr, 10); // konvertáljuk számmá
 
-  const user = await prisma.user.findUnique({ where: { id: id } });
+  const user = await prisma.user.findUnique({ where: { id: idStr } });
 
   if (!user)
     return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -31,7 +31,7 @@ export async function PUT(
     return NextResponse.json(validation.error.errors, { status: 400 });
   }
 
-  const user = await prisma.user.findUnique({ where: { id: id } });
+  const user = await prisma.user.findUnique({ where: { id: idStr } });
 
   if (!user)
     return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -52,9 +52,9 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> } // params Promise-ként van megadva
 ) {
   const { id: idStr } = await params; // await használata itt a params kibontásához
-  const id = parseInt(idStr, 10); // konvertáljuk számmá
+  //const id = parseInt(idStr, 10); // konvertáljuk számmá
 
-  const user = await prisma.user.findUnique({ where: { id: id } });
+  const user = await prisma.user.findUnique({ where: { id: idStr } });
 
   if (!user)
     return NextResponse.json({ error: "User not found" }, { status: 404 });
