@@ -1,39 +1,52 @@
-import Image from "next/image";
-import next from "@/public/images/next.svg";
+"use client";
+import { useState } from "react";
+import dynamic from "next/dynamic";
 
-import Link from "next/link";
-import ProductCard from "./components/ProductCard";
-import { authOptions } from "./api/auth/[...nextauth]/route";
-import { getServerSession } from "next-auth";
-import { Metadata } from "next";
+const HeavyComponent = dynamic(() => import("./components/HeavyComponent"), {
+  ssr: false,
+  loading: () => <p>Loading..</p>,
+});
 
-export default async function Home() {
-  const session = await getServerSession(authOptions);
+export default function Home() {
+  const [isVisible, setVisible] = useState(false);
   return (
     <main className="relative h-screen">
-      <h1 className="font-poppins">
-        Hello {session && <span>{session.user?.name}</span>}!
-      </h1>
-      <Link href="/users">Users</Link>
-      <ProductCard></ProductCard>
-      {/* <Image
-        src="https://bit.ly/react-cover"
-        alt="next"
-        fill
-        // style={{ objectFit: "cover" }}
-        // style={{ objectFit: "contain" }}
-        className="object-cover"
-        // sizes="100vw"
-        //set mobil, table, .. sizes
-        sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
-
-        quality={100}
-        priority>
-
-        </Image> */}
+      <h1 className="font-poppins">Hello world</h1>
+      <button onClick={() => setVisible(true)}>Show</button>
+      {isVisible && <HeavyComponent></HeavyComponent>}
     </main>
   );
 }
+
+// export default async function Home() {
+//   const session = await getServerSession(authOptions);
+//   return (
+//     <main className="relative h-screen">
+//       <h1 className="font-poppins">
+//         Hello {session && <span>{session.user?.name}</span>}!
+//       </h1>
+
+//       <HeavyComponent></HeavyComponent>
+//       <Link href="/users">Users</Link>
+//       <ProductCard></ProductCard>
+//       {/* <Image
+//         src="https://bit.ly/react-cover"
+//         alt="next"
+//         fill
+//         // style={{ objectFit: "cover" }}
+//         // style={{ objectFit: "contain" }}
+//         className="object-cover"
+//         // sizes="100vw"
+//         //set mobil, table, .. sizes
+//         sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
+
+//         quality={100}
+//         priority>
+
+//         </Image> */}
+//     </main>
+//   );
+// }
 
 // export async function generateMetadata(): Promise<Metadata> {
 //   const product = await fetch("");
