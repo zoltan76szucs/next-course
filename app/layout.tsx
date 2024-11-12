@@ -1,14 +1,20 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import NavBar from "./NavBar";
 import AuthProvider from "./auth/Provider";
 import Script from "next/script";
 import GoogleAnalyticsScript from "./GoogleAnalyticsScript";
 
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+});
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
+  variable: "--font-poppins",
   weight: "100 900",
 });
 const geistMono = localFont({
@@ -31,7 +37,7 @@ export default function RootLayout({
     <html lang="en" data-theme="winter">
       <GoogleAnalyticsScript></GoogleAnalyticsScript>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={geistSans.variable}
       >
         <AuthProvider>
           <NavBar></NavBar>

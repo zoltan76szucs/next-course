@@ -1,3 +1,4 @@
+import { Poppins } from "next/font/google";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -8,6 +9,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily:{
+      poppins:'var(--font-poppins)'  
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
