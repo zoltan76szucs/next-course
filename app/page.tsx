@@ -1,19 +1,21 @@
 "use client";
-import { useState } from "react";
-import dynamic from "next/dynamic";
-
-const HeavyComponent = dynamic(() => import("./components/HeavyComponent"), {
-  ssr: false,
-  loading: () => <p>Loading..</p>,
-});
 
 export default function Home() {
-  const [isVisible, setVisible] = useState(false);
   return (
     <main className="relative h-screen">
       <h1 className="font-poppins">Hello world</h1>
-      <button onClick={() => setVisible(true)}>Show</button>
-      {isVisible && <HeavyComponent></HeavyComponent>}
+      <button
+        onClick={async () => {
+          const _ = (await import("lodash")).default;
+          console.log("-------------");
+          const users = [{ name: "c" }, { name: "b" }, { name: "a" }];
+          const sortedUsers = _.orderBy(users, ["name"]);
+
+          console.log(sortedUsers);
+        }}
+      >
+        Show
+      </button>
     </main>
   );
 }
