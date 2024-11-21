@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id: idStr } = await params; // await használata itt a params kibontásához
-  const id = parseInt(idStr, 10); // konvertáljuk számmá
+  // const id = parseInt(idStr, 10); // konvertáljuk számmá
 
   const user = await prisma.user.findUnique({ where: { id: idStr } });
 
@@ -23,7 +23,7 @@ export async function PUT(
 ) {
   const body = await request.json();
   const { id: idStr } = await params; // await használata itt a params kibontásához
-  const id = parseInt(idStr, 10); // konvertáljuk számmá
+  // const id = parseInt(idStr, 10); // konvertáljuk számmá
 
   const validation = schema.safeParse(body);
 

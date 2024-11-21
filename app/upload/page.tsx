@@ -50,7 +50,7 @@ const UploadPage = () => {
             },
           },
         }}
-        onSuccess={(result, { widget }) => {
+        onSuccess={(result) => {
           if (result.event !== "success") return;
 
           const info = result.info as CloudinaryResult;
