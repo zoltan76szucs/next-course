@@ -12,7 +12,6 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
   const validation = schema.safeParse(body);
 
-
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
@@ -32,5 +31,5 @@ export async function POST(request: NextRequest) {
       hashedPassword: hashedPassword,
     },
   });
-  return NextResponse.json({email: newuser.email}, { status: 201 });
+  return NextResponse.json({ email: newuser.email }, { status: 201 });
 }
